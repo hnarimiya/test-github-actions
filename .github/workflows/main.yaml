@@ -22,7 +22,7 @@ jobs:
       # https://github.com/slackapi/slack-github-action
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
-        uses: slackapi/slack-github-action@v1
+        uses: slackapi/slack-github-action@v1.22.0
         with:
           payload-file-path: ".github/workflows/slack-content.json"
         env:

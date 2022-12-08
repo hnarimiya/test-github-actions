@@ -5,7 +5,7 @@
                         "fields": [{
                                         "title": "Repository",
                                         "short": false,
-                                        "value": "<{{ github.repository.url }}|{{ github.repository.url }}>"
+                                        "value": "<${{ github.event.repository.url }}|${{ github.event.repository.url }}>"
                                 },
                                 {
                                         "title": "Ref",
