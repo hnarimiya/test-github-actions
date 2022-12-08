@@ -23,9 +23,11 @@ jobs:
       - name: Send GitHub Action trigger data to Slack workflow
         id: slack
         uses: slackapi/slack-github-action@v1
+        run: |
+          echo "COLOR=good" >> $GITHUB_ENV
         with:
           payload: |
-            {"text":"A GitHub Action has ${{github.action_status}}","attachments":[{"color":"good","fields":[{"title":"Repository","short":false,"value":"<${{ github.event.repository.url }}|${{ github.event.repository.url }}>"},{"title":"Ref","short":false,"value":"${{ github.ref }}"},{"title":"Commit","short":false,"value":"<${{ github.event.head_commit.url }}|${{ github.sha }}>"},{"title":"Author","short":false,"value":"${{ github.event.head_commit.author.name }}"},{"title":"Message","short":false,"value":"${{ github.event.head_commit.message }}"},{"title":"Workflow","short":false,"value":"<${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}|${{ github.workflow }}>"}]}]}
+            {"text":"A GitHub Action has ${{job.status}}","attachments":[{"color":"${{COLOR}}","fields":[{"title":"Repository","short":false,"value":"<${{ github.event.repository.url }}|${{ github.event.repository.url }}>"},{"title":"Ref","short":false,"value":"${{ github.ref }}"},{"title":"Commit","short":false,"value":"<${{ github.event.head_commit.url }}|${{ github.sha }}>"},{"title":"Author","short":false,"value":"${{ github.event.head_commit.author.name }}"},{"title":"Message","short":false,"value":"${{ github.event.head_commit.message }}"},{"title":"Workflow","short":false,"value":"<${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}|${{ github.workflow }}>"}]}]}
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
