@@ -5,7 +5,19 @@ jobs:
     steps:
       # Check out theis repo
       - uses: actions/checkout@v3
-
+      - name: Dump GitHub context
+        id: github_context_step
+        run: echo '${{ toJSON(github) }}'
+      - name: Dump job context
+        run: echo '${{ toJSON(job) }}'
+      - name: Dump steps context
+        run: echo '${{ toJSON(steps) }}'
+      - name: Dump runner context
+        run: echo '${{ toJSON(runner) }}'
+      - name: Dump strategy context
+        run: echo '${{ toJSON(strategy) }}'
+      - name: Dump matrix context
+        run: echo '${{ toJSON(matrix) }}'
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - name: Send GitHub Action trigger data to Slack workflow
@@ -14,22 +26,32 @@ jobs:
         with:
           payload: |
             {
-              "text": ":github: ビルド結果: ${{ job.status }}\n\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}",
-              "blocks": [
+              "text": "Deployment finished (Completed)",
+              "attachments": [
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ":github: ビルド結果: ${{ job.status }}\n\n${{ github.event.pull_request.html_url || github.event.head_commit.url }}"
-                  }
-                },
-                {
-                  "type": "context",
-                  "elements": [
+                  "pretext": "Deployment finished",
+                  "color": "good",
+                  "fields": [
                     {
-                      "type": "mrkdwn",
-                      "text": "Author: <https://github.com/${{ github.event.sender.login }}|@${{ github.event.sender.login }}>"
-                    }
+                      "title": "Repository",
+                      "short": false,
+                      "value": "<https://github.com/${{ github.repository }}|${{ github.repository }}>"
+                    },
+                    {
+                      "title": "Ref",
+                      "short": false,
+                      "value": "${{ github.context.ref }}"
+                    },
+                    {
+                      "title": "Commit",
+                      "short": false,
+                      "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
+                    },
+                    {
+                      "title": "Workflow",
+                      "short": false,
+                      "value": ""<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.context.workflow }}>
+                    },
                   ]
                 }
               ]
