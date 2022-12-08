@@ -24,43 +24,7 @@ jobs:
         id: slack
         uses: slackapi/slack-github-action@v1
         with:
-          payload: |
-            {
-              "text": "Deployment finished (Completed)",
-              "attachments": [
-                {
-                  "pretext": "Deployment finished",
-                  "color": "good",
-                  "fields": [
-                    {
-                      "title": "Repository",
-                      "short": false,
-                      "value": "<https://github.com/${{ github.repository }}|${{ github.repository }}>"
-                    },
-                    {
-                      "title": "Ref",
-                      "short": false,
-                      "value": "${{ github.context.ref }}"
-                    },
-                    {
-                      "title": "Commit",
-                      "short": false,
-                      "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
-                    },
-                    {
-                      "title": "Author",
-                      "short": false,
-                      "value": "${{ github.event.commits[0].author.name }}<${{ github.event.commits[0].author.email }}>"
-                    },
-                    {
-                      "title": "Workflow",
-                      "short": false,
-                      "value": ""<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.context.workflow }}>
-                    },
-                  ]
-                }
-              ]
-            }
+          payload-file-path: "./slack-content.json"
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
     
