@@ -47,12 +47,12 @@ jobs:
                                 {
                                         "title": "Author",
                                         "short": false,
-                                        "value": "${{ github.event.commits[github.event.commits.length - 1].author.name }}<${{ github.event.commits[github.event.commits.length - 1].author.email }}>"
+                                        "value": "${{ github.event.commits[0].author.name }}<${{ github.event.commits[0].author.email }}>"
                                 },
                                 {
                                         "title": "Message",
                                         "short": false,
-                                        "value": "${{ github.event.commits[github.event.commits.length - 1].message }}"
+                                        "value": "${{ github.event.commits[0].message }}"
                                 },
                                 {
                                         "title": "Workflow",
