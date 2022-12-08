@@ -15,22 +15,22 @@
                                 {
                                         "title": "Commit",
                                         "short": false,
-                                        "value": "<https://github.com/${{ github.repository }}/commit/${{ github.sha }}|${{ github.sha }}>"
+                                        "value": "${{ github.event.head_commit.url }}|${{ github.sha }}>"
                                 },
                                 {
                                         "title": "Author",
                                         "short": false,
-                                        "value": "${{ github.event.commits[0].author.name }}<${{ github.event.commits[0].author.email }}>"
+                                        "value": "${{ github.event.head_commit.author.name }}"
                                 },
                                 {
                                         "title": "Message",
                                         "short": false,
-                                        "value": "${{ github.event.commits[0].message }}"
+                                        "value": "${{ github.event.head_commit.message }}"
                                 },
                                 {
                                         "title": "Workflow",
                                         "short": false,
-                                        "value": "<https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}|${{ github.context.workflow }}>"
+                                        "value": "${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}|${{ github.context.workflow }}>"
                                 }
                         ]
                 }]
