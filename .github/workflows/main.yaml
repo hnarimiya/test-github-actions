@@ -27,7 +27,7 @@ jobs:
         if: ${{ cancelled() }}
         run: echo "COLOR=warning" >> $GITHUB_ENV
       - name: The job has failed
-        if: ${{ failed() }}
+        if: ${{ failure() }}
         run: echo "COLOR=danger" >> $GITHUB_ENV
       - name: Send GitHub Action trigger data to Slack workflow
         if: ${{ always() }}
