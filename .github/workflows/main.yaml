@@ -20,22 +20,12 @@ jobs:
         run: echo '${{ toJSON(matrix) }}'
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
-      - name: The job has succeeded
-        if: ${{ success() }}
-        run: echo "COLOR=good" >> $GITHUB_ENV
-      - name: The job has cancelled
-        if: ${{ cancelled() }}
-        run: echo "COLOR=warning" >> $GITHUB_ENV
-      - name: The job has failed
-        if: ${{ failure() }}
-        run: echo "COLOR=danger" >> $GITHUB_ENV
       - name: Send GitHub Action trigger data to Slack workflow
         if: ${{ always() }}
         uses: slackapi/slack-github-action@v1
         with:
           payload: |
-            {"text":"A GitHub Action has ${{job.status}}","attachments":[{"color":"${{COLOR}}","fields":[{"title":"Repository","short":false,"value":"<${{ github.event.repository.url }}|${{ github.event.repository.url }}>"},{"title":"Ref","short":false,"value":"${{ github.ref }}"},{"title":"Commit","short":false,"value":"<${{ github.event.head_commit.url }}|${{ github.sha }}>"},{"title":"Author","short":false,"value":"${{ github.event.head_commit.author.name }}"},{"title":"Message","short":false,"value":"${{ github.event.head_commit.message }}"},{"title":"Workflow","short":false,"value":"<${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}|${{ github.workflow }}>"}]}]}
+            {"text":"A GitHub Action has ${{job.status}}","attachments":[{"color":"'${{ job.status }}' === 'success' ? 'good' : '${{ job.status }}' === 'failure' ? 'danger' : 'warning'","fields":[{"title":"Repository","short":false,"value":"<${{ github.event.repository.url }}|${{ github.event.repository.url }}>"},{"title":"Ref","short":false,"value":"${{ github.ref }}"},{"title":"Commit","short":false,"value":"<${{ github.event.head_commit.url }}|${{ github.sha }}>"},{"title":"Author","short":false,"value":"${{ github.event.head_commit.author.name }}"},{"title":"Message","short":false,"value":"${{ github.event.head_commit.message }}"},{"title":"Workflow","short":false,"value":"<${{ github.event.repository.url }}/actions/runs/${{ github.run_id }}|${{ github.workflow }}>"}]}]}
         env:
-          COLOR: ${{ COLOR }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
