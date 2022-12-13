@@ -21,12 +21,12 @@ jobs:
       - run: exit 1
   slack-notice:
     runs-on: ubuntu-latest
+    if: always() # set "always"
     steps:
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
       - uses: 8398a7/action-slack@v3
-        if: ${{ always() }}
         with:
           status: ${{ env.WORKFLOW_CONCLUSION }} # neutral, success, skipped, cancelled, timed_out, action_required, failure
         env:
