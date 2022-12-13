@@ -23,14 +23,14 @@ jobs:
     runs-on: ubuntu-latest
     if: always() # set "always"
     steps:
-      - name: Dump job context
-        run: echo '${{ toJSON(jobs) }}'
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
-      - uses: 8398a7/action-slack@v3
+      - name: Slack Notification
+        uses: sonots/slack-notice-action@v3
         with:
-          status: ${{ env.WORKFLOW_CONCLUSION }} # neutral, success, skipped, cancelled, timed_out, action_required, failure
+          title: My deployment
+          status: ${{ env.WORKFLOW_CONCLUSION }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
