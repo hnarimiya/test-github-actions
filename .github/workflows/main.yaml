@@ -27,6 +27,7 @@ jobs:
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
       - name: Slack Notification
+        needs: build
         uses: sonots/slack-notice-action@v3
         with:
           title: My deployment
