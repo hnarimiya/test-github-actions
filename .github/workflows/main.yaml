@@ -21,13 +21,13 @@ jobs:
       - run: exit 1
   slack-notice:
     runs-on: ubuntu-latest
+    needs: build
     if: always() # set "always"
     steps:
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
       - name: Slack Notification
-        needs: build
         uses: sonots/slack-notice-action@v3
         with:
           title: My deployment
