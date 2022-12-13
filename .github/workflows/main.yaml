@@ -23,6 +23,8 @@ jobs:
     runs-on: ubuntu-latest
     if: always() # set "always"
     steps:
+      - name: Dump job context
+        run: echo '${{ toJSON(jobs) }}'
       # Start a Slack workflow using a webhook trigger
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
