@@ -26,11 +26,12 @@ jobs:
       # https://github.com/slackapi/slack-github-action
       - uses: technote-space/workflow-conclusion-action@v3
       - uses: 8398a7/action-slack@v3
+        if: ${{ always() }}
         with:
           status: ${{ env.WORKFLOW_CONCLUSION }} # neutral, success, skipped, cancelled, timed_out, action_required, failure
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_INCOMING_WEBHOOK_URL }}
       - name: Send GitHub Action trigger data to Slack workflow
         if: ${{ always() }}
         uses: slackapi/slack-github-action@v1
