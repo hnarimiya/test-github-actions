@@ -23,6 +23,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: exit 0
+      - name: Send GitHub Action trigger data to Slack workflow
+        id: slack
+        uses: slackapi/slack-github-action@v1.23.0
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
   slack-notice:
     runs-on: ubuntu-latest
     needs: [build, deploy]
